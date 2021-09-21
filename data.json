@@ -1,0 +1,11 @@
+[
+    {
+        "name": "artichoke",
+        "veg": true
+    },
+    
+    {
+        "name": "steak",
+        "veg": false
+    }
+]
