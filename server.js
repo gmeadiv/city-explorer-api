@@ -29,6 +29,7 @@ Forecast.forecastArray = [];
 
 app.get('/forecast', (request, response) => {
   // let searchQuery = request.query;
+    // console.log(searchQuery, '<---- searchQuery LOG ---<<<');
   let searchQuery;
   const cityInfo = forecast.find(city => city.searchQuery === searchQuery);
   
