@@ -7,6 +7,8 @@ const cors = require('cors');
 const forecast = require('./weather.json');
 const PORT = process.env.PORT || 3002;
 const app = express();
+const React = require('react');
+const axios = require('axios');
 
 app.use(cors());
 
@@ -40,6 +42,7 @@ app.get('/forecast', (request, response) => {
   const dayThreeForecast = new Forecast(cityInfo.city_name, cityInfo.data[2].weather.description, cityInfo.data[2].valid_date);
   
   // console.log(dayOneForecast, dayTwoForecast, dayThreeForecast, '<--- FUNCTION CALL LOG ---<<<');
+
 });
 
 // console.log(Forecast.forecastArray, '<---- ARRAY GLOBAL LOG ---<<<');
