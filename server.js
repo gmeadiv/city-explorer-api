@@ -21,6 +21,7 @@ function Forecast(name, description, date) {
 
   // console.log(this, '<---- OBJECT FUNCTION LOG ---<<<');
   Forecast.forecastArray.push(this);
+  
   console.log(Forecast.forecastArray, '<---- ARRAY OBJECT LOG ---<<<');
 };
 
@@ -40,6 +41,6 @@ app.get('/forecast', (request, response) => {
   // console.log(dayOneForecast, dayTwoForecast, dayThreeForecast, '<--- FUNCTION CALL LOG ---<<<');
 });
 
-console.log(Forecast.forecastArray, '<---- ARRAY GLOBAL LOG ---<<<');
+// console.log(Forecast.forecastArray, '<---- ARRAY GLOBAL LOG ---<<<');
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
