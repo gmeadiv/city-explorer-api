@@ -7,5 +7,10 @@
     {
         "name": "steak",
         "veg": false
+    },
+
+    {
+        "name": "cucumber",
+        "veg": true
     }
 ]
