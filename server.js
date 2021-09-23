@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const forecast = require('./weather.json');
+const handlerFunctions = require('./routes')
 const PORT = process.env.PORT || 3002;
 const app = express();
 
@@ -18,11 +19,11 @@ function Forecast(date, description) {
   this.description = description;
   this.date = date;
 
-  // console.log(this, '<---- OBJECT FUNCTION LOG ---<<<');
+  // console.log(this, '<---- CONSTRUCTOR FUNCTION LOG ---<<<');
 };
 
 app.get('/forecast', (request, response) => {
-  let searchQuery = request.query.searchQuery;
+  let {searchQuery} = request.query;
     console.log(request.query, '<---- QUERY LOG ---<<<');
   const cityInfo = forecast.find(city => city.city_name === searchQuery);
 
@@ -33,5 +34,7 @@ app.get('/forecast', (request, response) => {
     console.log(error, 'ERROR LOG')
   }
 });
+
+app.get('/movies', handlerFunctions.handleGetMovies);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
