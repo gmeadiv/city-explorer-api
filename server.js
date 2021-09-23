@@ -14,34 +14,24 @@ app.get('/', (request, response) => {
   response.status(200).send('you made it!')
 });
 
-function Forecast(name, description, date) {
-  this.name = name;
-  this.description = description;
-  this.date = date;
+function Forecast(item) {
+  this.description = item.weather.description;
+  this.date = item.valid_date;
 
   // console.log(this, '<---- OBJECT FUNCTION LOG ---<<<');
-  Forecast.forecastArray.push(this);
-  
-  console.log(Forecast.forecastArray, '<---- ARRAY OBJECT LOG ---<<<');
 };
 
-Forecast.forecastArray = [];
-
 app.get('/forecast', (request, response) => {
-  // let searchQuery = request.query;
-    // console.log(searchQuery, '<---- searchQuery LOG ---<<<');
-  let searchQuery;
-  const cityInfo = forecast.find(city => city.searchQuery === searchQuery);
-  
-  response.send(cityInfo.city_name);
+  let {searchQuery} = request.query;
+    console.log(request.query, '<---- QUERY LOG ---<<<');
+  const cityInfo = forecast.find(city => city.city_name === searchQuery);
 
-  const dayOneForecast = new Forecast(cityInfo.city_name, cityInfo.data[0].weather.description, cityInfo.data[0].valid_date);
-  const dayTwoForecast = new Forecast(cityInfo.city_name, cityInfo.data[1].weather.description, cityInfo.data[1].valid_date);
-  const dayThreeForecast = new Forecast(cityInfo.city_name, cityInfo.data[2].weather.description, cityInfo.data[2].valid_date);
-  
-  // console.log(dayOneForecast, dayTwoForecast, dayThreeForecast, '<--- FUNCTION CALL LOG ---<<<');
+  try{
+    const forecastArray = cityInfo.data.map(item => new Forecast(item));
+    response.status(200).send(forecastArray);
+  } catch(error) {
+    console.log(error, 'ERROR LOG')
+  }
 });
-
-// console.log(Forecast.forecastArray, '<---- ARRAY GLOBAL LOG ---<<<');
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
