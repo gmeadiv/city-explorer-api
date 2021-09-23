@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 const forecast = require('./weather.json');
 const handlerFunctions = require('./routes')
 const PORT = process.env.PORT || 3002;
@@ -35,6 +36,6 @@ app.get('/forecast', (request, response) => {
   }
 });
 
-app.get('/movies', handlerFunctions.handleGetMovies);
+app.get('/routes', handlerFunctions.handleGetMovies);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
