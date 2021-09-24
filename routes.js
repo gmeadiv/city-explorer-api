@@ -10,7 +10,7 @@ async function getForecast(request, response) {
   let lat = request.query.latitude;
   let lon = request.query.longitude;
 
-  console.log(searchQuery, '<---- SEARCH QUERY LOG');
+  console.log(searchQuery, '<---- FORECAST SEARCH QUERY LOG');
   
   const forecastURL = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`;
 
@@ -26,7 +26,7 @@ async function getForecast(request, response) {
 async function getMovies(request, response) {
   let {searchQuery} = request.query; 
 
-  // console.log(searchQuery, '<---- MOVIES searchQuery LOG ---<<<')
+  console.log(searchQuery, '<---- MOVIES searchQuery LOG ---<<<')
 
   const moviesURL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${searchQuery}&page=1`;
 
