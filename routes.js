@@ -28,13 +28,23 @@ async function getYelp(request, response) {
 
   console.log(searchQuery, lat, lon, '<---- YELP SEARCH QUERY LOG');
 
-  const yelpURL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
+  // const yelpURL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
 
-  console.log(yelpURL, '<---- YELP URL LOG ---<<<');
 
-  const yelpResponse = await axios.get(yelpURL);
 
-  console.log(yelpResponse, '<---- YELP RESPONSE LOG ---<<<');
+
+
+  https://api.yelp.com/v3/businesses/search?=latitude=47.6038321&longitude=-122.3300624
+
+
+
+
+
+  // console.log(yelpURL, '<---- YELP URL LOG ---<<<');
+
+  // const yelpResponse = await axios.get(yelpURL);
+
+  // console.log(yelpResponse, '<---- YELP RESPONSE LOG ---<<<');
 
   response.status(200).send('WELCOME TO YELP REVIEW')
 }
