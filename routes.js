@@ -51,20 +51,20 @@ async function getYelp(request, response) {
 
 async function getMovies(request, response) {
   let {searchQuery} = request.query;
-  const key = 'movies-' + {searchQuery};
+  const key = searchQuery;
 
   console.log(searchQuery, '<---- MOVIES SEARCH QUERY LOG ---<<<')
 
   const moviesURL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${searchQuery}&page=1`;
 
-  if (cache[key] && (Date.now() - cache[key].timestamp < 5000)) {
-    console.log('--> CACHE HIT LOG <--')
+  if (cache[key] && (Date.now() - cache[key].timestamp) < 1000000) {
+    console.log((Date.now() - cache[key].timestamp), '<---- CACHE HIT LOG ---<<<')
   } else {
     console.log('--> CACHE MISS LOG <--');
     cache[key] = {};
     cache[key].timestamp = Date.now();
     cache[key].data = await axios.get(moviesURL)
-    .then(response => parseMovies(response))
+    .then(response => parseMovies(response));
   }
 
   response.status(200).send(cache[key].data);
