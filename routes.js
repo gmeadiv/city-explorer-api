@@ -21,10 +21,27 @@ async function getForecast(request, response) {
   response.status(200).send(forecastResponse.data);
 }
 
+async function getYelp(request, response) {
+  let searchQuery = request.query.searchQuery;
+  let lat = request.query.latitude;
+  let lon = request.query.longitude;
+
+  console.log(searchQuery, lat, lon, '<---- YELP SEARCH QUERY LOG');
+
+  const yelpURL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
+
+  console.log(yelpURL, '<---- YELP URL LOG ---<<<');
+
+  const yelpResponse = await axios.get(yelpURL);
+
+  console.log(yelpResponse, '<---- YELP RESPONSE LOG ---<<<');
+
+  response.status(200).send('WELCOME TO YELP REVIEW')
+}
+
 async function getMovies(request, response) {
   let {searchQuery} = request.query;
   const key = 'movies-' + {searchQuery};
-
 
   console.log(searchQuery, '<---- MOVIES SEARCH QUERY LOG ---<<<')
 
@@ -40,12 +57,7 @@ async function getMovies(request, response) {
     .then(response => parseMovies(response))
   }
 
-  // const moviesResponse = await axios.get(moviesURL);
-
   response.status(200).send(cache[key].data);
-
-  // console.log(cache[key].data, '<---- WHAT IS CACHE KEY DATA LOG ---<<<');
-  // return cache[key].data;
 }
 
 function parseMovies(movieData) {
@@ -72,4 +84,4 @@ class Movie {
   }
 }
 
-module.exports = {getHome, getForecast, getMovies}
+module.exports = {getHome, getForecast, getMovies, getYelp}

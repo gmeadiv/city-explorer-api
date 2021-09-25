@@ -14,6 +14,8 @@ app.get('/', handlerFunctions.getHome);
 
 app.get('/forecast', handlerFunctions.getForecast);
 
+app.get('/yelp', handlerFunctions.getYelp);
+
 app.get('/movies', handlerFunctions.getMovies);
 
 app.listen(PORT, () => console.log('Listening on ' + PORT));
