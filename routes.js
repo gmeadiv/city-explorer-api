@@ -35,7 +35,7 @@ async function getForecast(request, response) {
 }
 
 function parseWeather(weatherData) {
-  console.log(weatherData, '<---- WEATHER DATA LOG ---<<<')
+  console.log(weatherData.data, '<---- WEATHER DATA LOG ---<<<')
   // try {
   //   const weatherSummaries = weatherData.data.map(day => {
   //     return new Weather(day);
