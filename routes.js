@@ -11,11 +11,11 @@ async function getForecast(request, response) {
   const searchQuery = request.query.searchQuery;
   const lat = request.query.latitude;
   const lon = request.query.longitude;
-  const key = 'weather-' + {searchQuery};
+  const key = 'weather-' + searchQuery;
   
   const forecastURL = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`
 
-  if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
+  if (cache[key] && (Date.now() - cache[key].timestamp < 100000)) {
     console.log('--> WEATHER CACHE HIT LOG <--')
   } else {
     console.log('--> WEATHER CACHE MISS LOG <--');
@@ -44,43 +44,13 @@ class Weather {
   }
 }
 
-async function getYelp(request, response) {
-  let searchQuery = request.query.searchQuery;
-  let lat = request.query.latitude;
-  let lon = request.query.longitude;
-
-  console.log(searchQuery, lat, lon, '<---- YELP SEARCH QUERY LOG');
-
-  // const yelpURL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
-
-
-
-
-
-  https://api.yelp.com/v3/businesses/search?=latitude=47.6038321&longitude=-122.3300624
-
-
-
-
-
-  // console.log(yelpURL, '<---- YELP URL LOG ---<<<');
-
-  // const yelpResponse = await axios.get(yelpURL);
-
-  // console.log(yelpResponse, '<---- YELP RESPONSE LOG ---<<<');
-
-  response.status(200).send('WELCOME TO YELP REVIEW')
-}
-
 async function getMovies(request, response) {
   const {searchQuery} = request.query;
-  const key = 'movies-' + {searchQuery};
-
-  console.log(searchQuery, '<---- MOVIES SEARCH QUERY LOG ---<<<')
+  const key = 'movies-' + searchQuery;
 
   const moviesURL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${searchQuery}&page=1`;
 
-  if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
+  if (cache[key] && (Date.now() - cache[key].timestamp < 100000)) {
     console.log('--> MOVIE CACHE HIT LOG <--')
   } else {
     console.log('--> MOVIE CACHE MISS LOG <--');
@@ -116,4 +86,4 @@ class Movie {
   }
 }
 
-module.exports = {getHome, getForecast, getMovies, getYelp}
+module.exports = {getHome, getForecast, getMovies}
