@@ -1,6 +1,5 @@
 class Movie {
   constructor(movie) {
-    // console.log(movie, '<---- WHAT IS PASSING INTO THE CONSTRUCTOR LOG ---<<<');
     this.title = movie.original_title;
     this.overview = movie.overview;
     this.image = `https://image.tmdb.org/t/p/w200${movie.poster_path}`;
