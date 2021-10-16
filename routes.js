@@ -8,17 +8,40 @@ function getHome(request, response) {
 }
 
 async function getForecast(request, response) {
-  let searchQuery = request.query.searchQuery;
-  let lat = request.query.latitude;
-  let lon = request.query.longitude;
-
-  console.log(searchQuery, '<---- FORECAST SEARCH QUERY LOG');
+  const searchQuery = request.query.searchQuery;
+  const lat = request.query.latitude;
+  const lon = request.query.longitude;
+  const key = 'weather-' + {searchQuery};
   
-  const forecastURL = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`;
-  
-  const forecastResponse = await axios.get(forecastURL);
+  const forecastURL = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`
 
-  response.status(200).send(forecastResponse.data);
+  if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
+    console.log('--> WEATHER CACHE HIT LOG <--')
+  } else {
+    console.log('--> WEATHER CACHE MISS LOG <--');
+    cache[key] = {};
+    cache[key].timestamp = Date.now();
+    cache[key].data = await axios.get(forecastURL)
+    .then(response => parseWeather(response))
+  }
+
+  response.status(200).send(cache[key].data);
+}
+
+function parseWeather(weatherData) {
+  try {
+    const weatherSummaries = new Weather(weatherData.data);
+    return Promise.resolve(weatherSummaries);
+  } catch (e) {
+    return Promise.reject(e);
+  } 
+}
+
+class Weather {
+  constructor(weather) {
+    this.date = weather.data[0].datetime;
+    this.forecast = weather.data[0].weather
+  }
 }
 
 async function getYelp(request, response) {
@@ -50,17 +73,17 @@ async function getYelp(request, response) {
 }
 
 async function getMovies(request, response) {
-  let {searchQuery} = request.query;
-  const key = searchQuery;
+  const {searchQuery} = request.query;
+  const key = 'movies-' + {searchQuery};
 
   console.log(searchQuery, '<---- MOVIES SEARCH QUERY LOG ---<<<')
 
   const moviesURL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${searchQuery}&page=1`;
 
-  if (cache[key] && (Date.now() - cache[key].timestamp) < 1000000) {
-    console.log((Date.now() - cache[key].timestamp), '<---- CACHE HIT LOG ---<<<')
+  if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
+    console.log('--> MOVIE CACHE HIT LOG <--')
   } else {
-    console.log('--> CACHE MISS LOG <--');
+    console.log('--> MOVIE CACHE MISS LOG <--');
     cache[key] = {};
     cache[key].timestamp = Date.now();
     cache[key].data = await axios.get(moviesURL)
@@ -83,7 +106,6 @@ function parseMovies(movieData) {
 
 class Movie {
   constructor(movie) {
-    // console.log(movie, '<---- WHAT IS PASSING INTO THE CONSTRUCTOR LOG ---<<<');
     this.title = movie.original_title;
     this.overview = movie.overview;
     this.image = `https://image.tmdb.org/t/p/w200${movie.poster_path}`;
