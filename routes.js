@@ -44,10 +44,37 @@ class Weather {
   }
 }
 
+async function getYelp(request, response) {
+  let searchQuery = request.query.searchQuery;
+  let lat = request.query.latitude;
+  let lon = request.query.longitude;
+
+  console.log(searchQuery, lat, lon, '<---- YELP SEARCH QUERY LOG');
+
+  // const yelpURL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
+
+
+
+
+
+  https://api.yelp.com/v3/businesses/search?=latitude=47.6038321&longitude=-122.3300624
+
+
+
+
+
+  // console.log(yelpURL, '<---- YELP URL LOG ---<<<');
+
+  // const yelpResponse = await axios.get(yelpURL);
+
+  // console.log(yelpResponse, '<---- YELP RESPONSE LOG ---<<<');
+
+  response.status(200).send('WELCOME TO YELP REVIEW')
+}
+
 async function getMovies(request, response) {
   const {searchQuery} = request.query;
   const key = 'movies-' + {searchQuery};
-
 
   console.log(searchQuery, '<---- MOVIES SEARCH QUERY LOG ---<<<')
 
@@ -60,7 +87,7 @@ async function getMovies(request, response) {
     cache[key] = {};
     cache[key].timestamp = Date.now();
     cache[key].data = await axios.get(moviesURL)
-    .then(response => parseMovies(response))
+    .then(response => parseMovies(response));
   }
 
   response.status(200).send(cache[key].data);
@@ -89,4 +116,4 @@ class Movie {
   }
 }
 
-module.exports = {getHome, getForecast, getMovies}
+module.exports = {getHome, getForecast, getMovies, getYelp}
